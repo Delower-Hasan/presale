@@ -36,7 +36,7 @@ export const ConnectButton = function () {
 
   const activating = (connection) => connection === activatingConnector;
   const connected = (connection) => connection === connector;
-
+  console.log("connection button");
   return (
     <>
       <div>
