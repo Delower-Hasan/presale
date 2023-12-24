@@ -1,17 +1,13 @@
-
 import { useWeb3React, UnsupportedChainIdError } from "@web3-react/core";
-import {
-  NoEthereumProviderError
-} from "@web3-react/injected-connector";
+import { NoEthereumProviderError } from "@web3-react/injected-connector";
 import { useEffect, useState } from "react";
 import { injected } from "../hooks/connectors";
 import { useEagerConnect, useInactiveListener } from "../hooks/hooks";
 
-
-
 export const ConnectButton = function () {
   const context = useWeb3React();
-  const { connector, chainId, account, activate, deactivate, active, error } = context;
+  const { connector, chainId, account, activate, deactivate, active, error } =
+    context;
 
   // handle logic to recognize the connector currently being activated
   const [activatingConnector, setActivatingConnector] = useState();
@@ -25,7 +21,6 @@ export const ConnectButton = function () {
   const triedEager = useEagerConnect();
 
   function getErrorMessage(error) {
-
     if (error instanceof NoEthereumProviderError) {
       return "Metamask not deteced";
     }
@@ -41,59 +36,64 @@ export const ConnectButton = function () {
 
   const activating = (connection) => connection === activatingConnector;
   const connected = (connection) => connection === connector;
-
-
+  console.log("connection button");
   return (
-
     <>
-
-      {
-        error &&
-        <button className="metamask flex" onClick={() => {
-          setActivatingConnector(injected);
-          activate(injected);
-        }}>
-          <img src="../images/metamask-logo.png" alt="" />
-          <span>{getErrorMessage(error)}</span>
-          
-        </button>
-      }
-      {!error &&
-        <>
-
-          {connected(injected) && typeof chainId === 'undefined' &&
-            <button className="metamask flex">
-              <img src="../images/metamask-logo.png" alt="" />
-              <span>Switch Network Bsc Mainnet</span>
-            </button>
-
-          }
-          {(active || !error) && connected(injected) &&
-            <button className="metamask flex" onClick={() => {
-              setActivatingConnector();
-              deactivate(injected);
-
-            }}>
-              <img src="../images/metamask-logo.png" alt="" />
-
-              <span>{account && account.toString().substr(0, 5) + "...." + account.toString().substr(-5)}</span>
-            </button>
-
-
-          }
-          {!connected(injected) &&
-
-            <button className="metamask flex" onClick={() => {
+      <div>
+        {error && (
+          <button
+            className="metamask flex"
+            onClick={() => {
               setActivatingConnector(injected);
               activate(injected);
-            }}>
-              <img src="../images/metamask-logo.png" alt="" />
-              {activating(injected) && <span>Connecting...</span>}
-              {!activating(injected) && <span>Connect wallet</span>}
-            </button>
-          }
-        </>
-      }
+            }}
+          >
+            <img src="../images/metamask-logo.png" alt="" />
+            <span>{getErrorMessage(error)}</span>
+          </button>
+        )}
+        {!error && (
+          <>
+            {connected(injected) && typeof chainId === "undefined" && (
+              <button className="metamask flex">
+                <img src="../images/metamask-logo.png" alt="" />
+                <span>Switch Network Bsc Mainnet</span>
+              </button>
+            )}
+            {(active || !error) && connected(injected) && (
+              <button
+                className="metamask flex"
+                onClick={() => {
+                  setActivatingConnector();
+                  deactivate(injected);
+                }}
+              >
+                <img src="../images/metamask-logo.png" alt="" />
+
+                <span>
+                  {account &&
+                    account.toString().substr(0, 5) +
+                      "...." +
+                      account.toString().substr(-5)}
+                </span>
+              </button>
+            )}
+            {!connected(injected) && (
+              <button
+                className="metamask flex"
+                onClick={() => {
+                  setActivatingConnector(injected);
+                  activate(injected);
+                }}
+              >
+                <img src="../images/metamask-logo.png" alt="" />
+                {activating(injected) && <span>Connecting...</span>}
+                {!activating(injected) && <span>Connect wallet</span>}
+              </button>
+            )}
+          </>
+        )}
+      </div>
     </>
   );
 };
