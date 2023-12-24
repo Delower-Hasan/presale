@@ -27,7 +27,6 @@ export default function Buy() {
   const [UsdtoBnb, setUsdtoBnb] = useState(0);
   const [perDollarPrice, setPerDollarPrice] = useState(0);
   const [buttonText, setButtonText] = useState("Approve");
-  
 
   const [amount, setAmount] = useState("0.0");
   const [token, setToken] = useState("0.0");
@@ -72,8 +71,6 @@ export default function Buy() {
 
     checkApprove();
   }, [account]);
-
-  checkApprove(;
 
   useEffect(() => {
     async function getUserBal() {
